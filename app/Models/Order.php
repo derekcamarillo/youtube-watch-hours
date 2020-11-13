@@ -14,6 +14,15 @@ class Order extends Model
         'link', 'quantity', 'seconds'
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($query) {
+            $query->uid = Str::random(16);
+        });
+    }
+
     public function users() {
         return $this->belongsToMany(User::class, "user_order");
     }
@@ -27,7 +36,7 @@ class Order extends Model
 
         if (Str::contains($link, "watch?v=")) {
             $array = explode("watch?v=", $link);
-            return $array[0];
+            return $array[1];
         } elseif (Str::contains($link, "embed")) {
             $array = explode('/', $link);
             return $array[sizeof($array) - 1];

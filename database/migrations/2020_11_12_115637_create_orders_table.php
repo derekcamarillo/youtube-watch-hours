@@ -15,7 +15,7 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('uid')->unique()->default(\Illuminate\Support\Str::random(16));
+            $table->string('uid')->unique();
             $table->string('link');
             $table->integer('quantity');
             $table->integer('seconds');

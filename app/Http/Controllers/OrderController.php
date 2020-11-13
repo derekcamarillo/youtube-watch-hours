@@ -44,7 +44,7 @@ class OrderController extends Controller
                 'link' => 'required|url',
                 'quantity' => 'required|integer|min:1',
                 'seconds' => 'required|integer|in:30,60,90',
-                'api-key' => 'required'
+                //'api-key' => 'required'
             ]);
 
             $order = new Order();
@@ -57,7 +57,7 @@ class OrderController extends Controller
         } catch (ValidationException $e) {
             $response['status'] = false;
             $response['error'] = $e->errors();
-            return Response::json($response, Response::HTTP_NOT_FOUND);
+            return response()->json($response, Response::HTTP_NOT_FOUND);
         }
     }
 
