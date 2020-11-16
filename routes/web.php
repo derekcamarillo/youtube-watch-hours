@@ -18,3 +18,6 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', "HomeController@dashboard")->name('dashboard');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/order/{order}', "OrderController@show")->name('order.show');
+Route::middleware(['auth:sanctum', 'verified'])->post('/order/watch', "OrderController@watch")->name('order.watch');

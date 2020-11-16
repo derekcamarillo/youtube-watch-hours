@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
 class OrderController extends Controller
@@ -70,6 +72,40 @@ class OrderController extends Controller
     public function show(Order $order)
     {
         //
+        return view('order.show', compact('order'));
+    }
+
+    public function watch(Request $request) {
+        try {
+            $this->validate($request, [
+                'uid' => 'required'
+            ]);
+
+            $order = Order::where('uid', $request->uid)->firstOrFail();
+            $order->status = config('constant.status.in_progress');
+            $order->save();
+
+            $user = Auth::user();
+            $order->users()->attach($user);
+            $user->coins = $user->coin + $order->seconds;
+            $user->save();
+
+            return response()->json([
+                'status' => true,
+                'data' => $order->remains,
+                'message' => "Successfully recorded your watching seconds"
+            ]);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'status' => false,
+                'error' => $e->getMessage()
+            ]);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'status' => false,
+                'error' => $e->errors()
+            ]);
+        }
     }
 
     /**
