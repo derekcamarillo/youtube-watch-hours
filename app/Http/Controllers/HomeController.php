@@ -9,11 +9,28 @@ use Illuminate\Support\Facades\Auth;
 class HomeController extends Controller
 {
     //
-    public function dashboard() {
-        $orders = Order::whereDoesntHave('users', function ($query) {
-            $query->where('user_id', Auth::id());
-        })->orderByRaw("RAND()")->limit(12)->get();
 
-        return view('dashboard', compact('orders'));
+    public function view_home() {
+        return view('home');
+    }
+
+    public function view_howitworks() {
+        return view('howitworks');
+    }
+
+    public function view_faq() {
+        return view('faq');
+    }
+
+    public function view_shop() {
+        return view('shop');
+    }
+
+    public function view_contactus() {
+        return view('contactus');
+    }
+
+    public function view_terms() {
+        return view('terms');
     }
 }

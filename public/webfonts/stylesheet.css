@@ -1,0 +1,120 @@
+@font-face {
+    font-family: 'Futura PT';
+    src: url('FuturaPT-Bold.eot');
+    src: url('FuturaPT-Bold.eot?#iefix') format('embedded-opentype'),
+        url('FuturaPT-Bold.woff2') format('woff2'),
+        url('FuturaPT-Bold.woff') format('woff'),
+        url('FuturaPT-Bold.ttf') format('truetype'),
+        url('FuturaPT-Bold.svg#FuturaPT-Bold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Futura PT';
+    src: url('FuturaPT-MediumObl.eot');
+    src: url('FuturaPT-MediumObl.eot?#iefix') format('embedded-opentype'),
+        url('FuturaPT-MediumObl.woff2') format('woff2'),
+        url('FuturaPT-MediumObl.woff') format('woff'),
+        url('FuturaPT-MediumObl.ttf') format('truetype'),
+        url('FuturaPT-MediumObl.svg#FuturaPT-MediumObl') format('svg');
+    font-weight: 500;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Futura PT';
+    src: url('FuturaPT-Medium.eot');
+    src: url('FuturaPT-Medium.eot?#iefix') format('embedded-opentype'),
+        url('FuturaPT-Medium.woff2') format('woff2'),
+        url('FuturaPT-Medium.woff') format('woff'),
+        url('FuturaPT-Medium.ttf') format('truetype'),
+        url('FuturaPT-Medium.svg#FuturaPT-Medium') format('svg');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Futura PT Book';
+    src: url('FuturaPT-Book.eot');
+    src: url('FuturaPT-Book.eot?#iefix') format('embedded-opentype'),
+        url('FuturaPT-Book.woff2') format('woff2'),
+        url('FuturaPT-Book.woff') format('woff'),
+        url('FuturaPT-Book.ttf') format('truetype'),
+        url('FuturaPT-Book.svg#FuturaPT-Book') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Futura PT Demi';
+    src: url('FuturaPT-Demi.eot');
+    src: url('FuturaPT-Demi.eot?#iefix') format('embedded-opentype'),
+        url('FuturaPT-Demi.woff2') format('woff2'),
+        url('FuturaPT-Demi.woff') format('woff'),
+        url('FuturaPT-Demi.ttf') format('truetype'),
+        url('FuturaPT-Demi.svg#FuturaPT-Demi') format('svg');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Futura PT Demi';
+    src: url('FuturaPT-DemiObl.eot');
+    src: url('FuturaPT-DemiObl.eot?#iefix') format('embedded-opentype'),
+        url('FuturaPT-DemiObl.woff2') format('woff2'),
+        url('FuturaPT-DemiObl.woff') format('woff'),
+        url('FuturaPT-DemiObl.ttf') format('truetype'),
+        url('FuturaPT-DemiObl.svg#FuturaPT-DemiObl') format('svg');
+    font-weight: 600;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Futura PT';
+    src: url('FuturaPT-BoldObl.eot');
+    src: url('FuturaPT-BoldObl.eot?#iefix') format('embedded-opentype'),
+        url('FuturaPT-BoldObl.woff2') format('woff2'),
+        url('FuturaPT-BoldObl.woff') format('woff'),
+        url('FuturaPT-BoldObl.ttf') format('truetype'),
+        url('FuturaPT-BoldObl.svg#FuturaPT-BoldObl') format('svg');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Fredoka One';
+    src: url('FredokaOne-Regular.eot');
+    src: url('FredokaOne-Regular.eot?#iefix') format('embedded-opentype'),
+        url('FredokaOne-Regular.woff2') format('woff2'),
+        url('FredokaOne-Regular.woff') format('woff'),
+        url('FredokaOne-Regular.ttf') format('truetype'),
+        url('FredokaOne-Regular.svg#FredokaOne-Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Zapf Dingbats';
+    src: url('ZapfDingbatsITC.eot');
+    src: url('ZapfDingbatsITC.eot?#iefix') format('embedded-opentype'),
+        url('ZapfDingbatsITC.woff2') format('woff2'),
+        url('ZapfDingbatsITC.woff') format('woff'),
+        url('ZapfDingbatsITC.ttf') format('truetype'),
+        url('ZapfDingbatsITC.svg#ZapfDingbatsITC') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'COCOGOOSE';
+    src: url('COCOGOOSE-DemiBold.eot');
+    src: url('COCOGOOSE-DemiBold.eot?#iefix') format('embedded-opentype'),
+        url('COCOGOOSE-DemiBold.woff2') format('woff2'),
+        url('COCOGOOSE-DemiBold.woff') format('woff'),
+        url('COCOGOOSE-DemiBold.ttf') format('truetype'),
+        url('COCOGOOSE-DemiBold.svg#COCOGOOSE-DemiBold') format('svg');
+    font-weight: 600;
+    font-style: normal;
+}
+
