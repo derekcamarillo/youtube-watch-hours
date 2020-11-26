@@ -18,9 +18,9 @@
                         <canvas id="canvas" width="600" height="600">
                             Canvas not supported, use another browser.
                         </canvas>
-                        <img class="border" src="{{ asset('images/wheel_border.png') }}" width="600" height="600">
-                        <img class="center" src="{{ asset('images/wheel_center.png') }}" width="140" height="140">
-                        <img class="ticker" src="{{ asset('images/wheel_ticker.png') }}" width="60" height="74">
+                        <img class="bdr" src="{{ asset('images/wheel_border.png') }}" width="600" height="600">
+                        <img class="ctr" src="{{ asset('images/wheel_center.png') }}" width="140" height="140">
+                        <img class="tcr" src="{{ asset('images/wheel_ticker.png') }}" width="60" height="74">
                     </div>
                     <div class="btn-wrapper text-center">
                         <p>Total Winnings : 6,280 coins and 57 VIP Days</p>
@@ -61,19 +61,19 @@
 
 @push('styles')
     <style>
-        .wheel .border {
+        .wheel .bdr {
             position: absolute;
             left: 50%;
             margin-left: -300px;
         }
-        .wheel .center {
+        .wheel .ctr {
             position: absolute;
             left: 50%;
             top: 50%;
             margin-top: -162px;
             margin-left: -70px;
         }
-        .wheel .ticker {
+        .wheel .tcr {
             position: absolute;
             left: 50%;
             margin-left: -30px;
