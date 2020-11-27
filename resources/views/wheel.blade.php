@@ -77,6 +77,7 @@
             position: absolute;
             left: 50%;
             margin-left: -30px;
+            margin-top: -10px;
         }
     </style>
 @endpush
@@ -102,11 +103,11 @@
                     {'fillStyle' : '#ffffff', 'text' : 'Lost', 'textFillStyle' : '#000000'},
                     {'fillStyle' : '#B92722', 'text' : 'Bankrupt', 'textFontSize' : 36, 'textFillStyle' : '#ffffff'},
                     {'fillStyle' : '#ffffff', 'text' : '450', 'textFillStyle' : '#000000'},
-                    {'fillStyle' : '#B92722', 'text' : '300', 'textFillStyle' : '#ffffff'},
-                    {'fillStyle' : '#ffffff', 'text' : '450', 'textFillStyle' : '#000000'},
-                    {'fillStyle' : '#B92722', 'text' : '300', 'textFillStyle' : '#ffffff'},
-                    {'fillStyle' : '#ffffff', 'text' : '450', 'textFillStyle' : '#000000'},
-                    {'fillStyle' : '#B92722', 'text' : '300', 'textFillStyle' : '#ffffff'},
+                    {'fillStyle' : '#B92722', 'text' : '30Coin', 'textFillStyle' : '#ffffff'},
+                    {'fillStyle' : '#ffffff', 'text' : '2 VIP', 'textFillStyle' : '#000000'},
+                    {'fillStyle' : '#B92722', 'text' : '10$ ', 'textFillStyle' : '#ffffff'},
+                    {'fillStyle' : '#ffffff', 'text' : 'Lost', 'textFillStyle' : '#000000'},
+                    {'fillStyle' : '#B92722', 'text' : 'Bankrupt', 'textFontSize' : 36, 'textFillStyle' : '#ffffff'},
                     {'fillStyle' : '#ffffff', 'text' : '450', 'textFillStyle' : '#000000'},
                 ],
             'animation' :           // Specify the animation to use.

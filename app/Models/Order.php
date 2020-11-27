@@ -11,7 +11,7 @@ class Order extends Model
     use HasFactory;
 
     public $fillable = [
-        'link', 'quantity', 'seconds'
+        'link', 'title', 'quantity', 'seconds', 'daily_limit', 'gender', 'country'
     ];
 
     public static function boot()

@@ -8,38 +8,144 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use PayPal\Api\Amount;
+use PayPal\Api\Authorization;
+use PayPal\Api\Details;
+use PayPal\Api\Item;
+use PayPal\Api\ItemList;
+use PayPal\Api\Payer;
+use PayPal\Api\Payment;
+use PayPal\Api\PaymentExecution;
+use PayPal\Api\RedirectUrls;
+use PayPal\Api\Transaction;
+use PayPal\Auth\OAuthTokenCredential;
+use PayPal\Rest\ApiContext;
+use PHPUnit\Util\TestDox\ResultPrinter;
 
 class OrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    private $apiContext;
+
+    public function __construct()
     {
-        //
+        $this->apiContext = new ApiContext(
+            new OAuthTokenCredential(env('PAYPAL_CLIENT_ID'), env('PAYPAL_SECRET'))
+        );
+        $this->apiContext->setConfig(config('paypal.settings'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function create(Request $request)
     {
         //
+        try {
+            $this->validate($request, [
+                'link' => 'required|url',
+                'title' => 'required',
+                'quantity' => 'required|integer|min:1',
+                'seconds' => 'required|integer|in:30,60,90',
+                'daily_limit' => 'required|integer|min:0',
+                'gender' => 'required',
+                'country' => 'required'
+            ]);
+
+            $order = Order::create($request->all());
+
+            $price = 0.001 * $request->seconds;
+            $cost = $request->quantity * $price;
+
+            $payer = new Payer();
+            $payer->setPaymentMethod("paypal");
+
+            $item1 = new Item();
+            $item1->setName("{$request->quantity} * {$request->seconds} seconds")
+                ->setCurrency("USD")
+                ->setQuantity($request->quantity)
+                ->setPrice($price);
+
+            $itemsList = new ItemList();
+            $itemsList->setItems(array($item1));
+
+            /*
+            $details = new Details();
+            $details->setTax(1.3)
+                ->setSubtotal($cost / 1.3);
+            */
+
+            $amount = new Amount();
+            $amount->setCurrency("USD")
+                ->setTotal($cost);
+                //->setDetails($details);
+
+            $transaction = new Transaction();
+            $transaction->setAmount($amount)
+                ->setItemList($itemsList)
+                ->setDescription("YoutubeWatcher Service")
+                ->setInvoiceNumber(uniqid());
+
+            $redirectUrls = new RedirectUrls();
+            $redirectUrls->setReturnUrl(route('payment.success'))
+                ->setCancelUrl(route('payment.cancel'));
+
+            $payment = new Payment();
+            $payment->setIntent("order")
+                ->setPayer($payer)
+                ->setRedirectUrls($redirectUrls)
+                ->setTransactions(array($transaction));
+
+            try {
+                $payment->create($this->apiContext);
+            } catch (\Exception $ex) {
+                return back()->withErrors([
+                    'error' => $ex->getMessage()
+                ]);
+            }
+
+            $approvalUrl = $payment->getApprovalLink();
+
+            return redirect($approvalUrl);
+        } catch (ValidationException $e) {
+            return back()->withErrors($e->errors());
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    public function payment_success(Request $request) {
+        $paymentId = $request->paymentId;
+        $payment = Payment::get($paymentId, $this->apiContext);
+
+        $execution = new PaymentExecution();
+        $execution->setPayerId($request->PayerID);
+
+        try {
+            $payment->execute($execution, $this->apiContext);
+
+            $transactions = $payment->getTransactions();
+            $transaction = $transactions[0];
+            $relatedResources = $transaction->getRelatedResources();
+            $relatedResource = $relatedResources[0];
+            $order = $relatedResource->getOrder();
+
+            // ### Create Authorization Object
+            // with Amount in it
+            $authorization = new Authorization();
+            $authorization->setAmount(new Amount(
+            '{
+                        "total": "2.00",
+                        "currency": "USD"
+                }'));
+
+            $result = $order->authorize($authorization, $this->apiContext);
+
+            dd($result);
+        } catch (\Exception $e) {
+            //todo: handle exception
+        }
+    }
+
+    public function payment_cancel(Request $request) {
+
+    }
+
+    public function api_create(Request $request) {
         $response = array();
         try {
             $this->validate($request, [
@@ -61,18 +167,6 @@ class OrderController extends Controller
             $response['error'] = $e->errors();
             return response()->json($response, Response::HTTP_NOT_FOUND);
         }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Order $order)
-    {
-        //
-        return view('order.show', compact('order'));
     }
 
     public function watch(Request $request) {
@@ -106,39 +200,5 @@ class OrderController extends Controller
                 'error' => $e->errors()
             ]);
         }
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Order $order)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Order $order)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Order $order)
-    {
-        //
     }
 }

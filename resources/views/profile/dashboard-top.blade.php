@@ -25,7 +25,7 @@
         <ul>
             <li><a href="{{ route('withdraw') }}">WITHDRAW MONEY</a></li>
             <li><a href="{{ route('referral') }}">REFERRALS</a></li>
-            <li><a href="{{ route('watch') }}">WATCH VIDEOS</a></li>
+            <li><a href="{{ route('watch.list') }}">WATCH VIDEOS</a></li>
             <li><a href="{{ route('wheel') }}">LUCKY WHEEL</a></li>
             <li><a href="{{ route('lottery') }}">LOTTERY</a></li>
         </ul>
