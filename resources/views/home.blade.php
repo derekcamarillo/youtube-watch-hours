@@ -36,7 +36,7 @@
                                 <li>❏ Your Channel have linked an approved Google AdSense account.</li>
                             </ul>
                         </div>
-                        <a href="#" class="link">Sign Up <strong>Now!</strong></a>
+                        <a href="{{ route('register') }}" class="link">Sign Up <strong>Now!</strong></a>
                     </div>
                 </div>
             </div>

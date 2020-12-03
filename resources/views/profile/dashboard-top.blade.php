@@ -8,7 +8,12 @@
                         <h5>USERNAME</h5>
                         <ul class="list-unstyled">
                             <li><a href="#">EDIT ACCOUNT</a></li>
-                            <li><a href="#">LOGOUT</a></li>
+                            <li>
+                                <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">LOGOUT</a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </li>
                         </ul>
                     </div>
                 </div>

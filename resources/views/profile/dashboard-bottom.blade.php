@@ -17,6 +17,6 @@
             <p>Invite your friends and get more coins!</p>
             <p>Invite your friends using your special affiliate URL and receive 10% of their earnings for life!</p>
         </div>
-        <div class="link-text">https://watchhours.com/?ref=985</div>
+        <div class="link-text">{{ route('my-referral', Auth::user()->ref_code ) }}</div>
     </div>
 </div
