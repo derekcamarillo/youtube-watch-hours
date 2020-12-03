@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -61,4 +62,25 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    protected $attributes = [
+
+    ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($query) {
+            $query->ref_code = Str::random();
+        });
+    }
+
+    public function orders() {
+        return $this->hasMany(Order::class);
+    }
+
+    public function watches() {
+        return $this->belongsToMany(Order::class, "user_order");
+    }
 }

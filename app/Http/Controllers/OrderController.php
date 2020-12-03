@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -48,64 +49,31 @@ class OrderController extends Controller
                 'country' => 'required'
             ]);
 
-            $order = Order::create($request->all());
+            Order::create($request->all());
 
-            $price = 0.001 * $request->seconds;
-            $cost = $request->quantity * $price;
-
-            $payer = new Payer();
-            $payer->setPaymentMethod("paypal");
-
-            $item1 = new Item();
-            $item1->setName("{$request->quantity} * {$request->seconds} seconds")
-                ->setCurrency("USD")
-                ->setQuantity($request->quantity)
-                ->setPrice($price);
-
-            $itemsList = new ItemList();
-            $itemsList->setItems(array($item1));
-
-            /*
-            $details = new Details();
-            $details->setTax(1.3)
-                ->setSubtotal($cost / 1.3);
-            */
-
-            $amount = new Amount();
-            $amount->setCurrency("USD")
-                ->setTotal($cost);
-                //->setDetails($details);
-
-            $transaction = new Transaction();
-            $transaction->setAmount($amount)
-                ->setItemList($itemsList)
-                ->setDescription("YoutubeWatcher Service")
-                ->setInvoiceNumber(uniqid());
-
-            $redirectUrls = new RedirectUrls();
-            $redirectUrls->setReturnUrl(route('payment.success'))
-                ->setCancelUrl(route('payment.cancel'));
-
-            $payment = new Payment();
-            $payment->setIntent("order")
-                ->setPayer($payer)
-                ->setRedirectUrls($redirectUrls)
-                ->setTransactions(array($transaction));
-
-            try {
-                $payment->create($this->apiContext);
-            } catch (\Exception $ex) {
-                return back()->withErrors([
-                    'error' => $ex->getMessage()
-                ]);
-            }
-
-            $approvalUrl = $payment->getApprovalLink();
-
-            return redirect($approvalUrl);
+            return redirect()->route('my-video');
         } catch (ValidationException $e) {
             return back()->withErrors($e->errors());
         }
+    }
+
+    public function do_finish_watch(Request $request, $order) {
+        $order = Order::where('uid', $order)->firstOrFail();
+
+        $user = Auth::user();
+        $user->coin = $user->coin + $order->seconds;
+        $user->save();
+        Auth::user()->watches()->save($order);
+
+        if ($request->ajax())
+            return \response()->json([
+                'status' => true,
+                'data' => "Successfully saved"
+            ]);
+        else
+            return back()->with([
+                'success' => "Successfully saved"
+            ]);
     }
 
     public function payment_success(Request $request) {

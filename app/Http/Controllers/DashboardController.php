@@ -22,6 +22,10 @@ class DashboardController extends Controller
         return view('promote-video');
     }
 
+    public function view_my_video() {
+        return view('my-video');
+    }
+
     public function view_watch_list() {
         $orders = Order::whereDoesntHave('users', function ($query) {
             $query->where('user_id', Auth::id());

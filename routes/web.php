@@ -30,8 +30,10 @@ Route::group([
     Route::get('dashboard', "DashboardController@view_dashboard")->name('dashboard');
 
     Route::get('promote-video', "DashboardController@view_promote_video")->name('promote-video');
+    Route::get('my-video', "DashboardController@view_my_video")->name('my-video');
     Route::get('watch', "DashboardController@view_watch_list")->name('watch.list');
     Route::get('watch/{order}', "DashboardController@view_watch")->name('watch');
+    Route::post('watch/finish/{order}', "OrderController@do_finish_watch")->name('watch.finish');
     Route::get('referral', "DashboardController@view_referral")->name('referral');
     Route::get('withdraw', "DashboardController@view_withdraw")->name('withdraw');
     Route::get('wheel', "DashboardController@view_wheel")->name('wheel');

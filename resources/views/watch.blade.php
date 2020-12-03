@@ -82,8 +82,10 @@
 
             $.ajax({
                 type: "POST",
-                url: "system/gateways/video.php",
-                data: "data=" + response + "&token=" + token,
+                url: "{{ route('watch.finish', $order->uid) }}",
+                data: {
+                    _token: "{{ csrf_token() }}"
+                },
                 success: function(a) {
                     $('#status').html(a);
                     $('#countdown').html('<a href="?page=videos" style="font-weight:600;color:red"><b>WATCH ANOTHER VIDEO HERE</b></a>');

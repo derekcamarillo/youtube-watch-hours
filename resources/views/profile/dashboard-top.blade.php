@@ -15,7 +15,7 @@
             </div>
             <div class="col-lg-6 align-self-center">
                 <div class="row">
-                    <div class="col-sm-6"><div class="coin box">COINS<br>100.00 = $0.03</div></div>
+                    <div class="col-sm-6"><div class="coin box">COINS<br>{{ Auth::user()->coin }} = ${{ Auth::user()->coin * 0.03 }}</div></div>
                     <div class="col-sm-6"><div class="membership box">MEMBERSHIP<br>BASIC</div></div>
                 </div>
             </div>
