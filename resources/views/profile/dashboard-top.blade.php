@@ -5,7 +5,7 @@
                 <div class="media">
                     <div class="avatar"><img src="{{ asset('images/user.svg') }}" alt=""></div>
                     <div class="media-body">
-                        <h5>USERNAME</h5>
+                        <h5>{{ Auth::user()->name }}</h5>
                         <ul class="list-unstyled">
                             <li><a href="#">EDIT ACCOUNT</a></li>
                             <li>

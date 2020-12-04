@@ -24,7 +24,13 @@
                     </div>
                     <div class="btn-wrapper text-center">
                         <p>Total Winnings : 6,280 coins and 57 VIP Days</p>
-                        <a href="javascript:void(0)" onclick="startWheel()" class="btn btn-primary">SPIN NOW</a>
+                        @if(Auth::user()->coin < 40)
+                            <a href="javascript:void(0)" class="btn btn-primary">Insufficient Coins</a>
+                        @elseif (Auth::user()->spin_at >= \Carbon\Carbon::now()->subDay())
+                            <a href="javascript:void(0)" class="btn btn-primary">Availale At {{ Auth::user()->spin_at->addDay() }}</a>
+                        @else
+                            <a href="javascript:void(0)" onclick="startWheel()" id="btn-wheel" class="btn btn-primary">SPIN NOW</a>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -89,37 +95,37 @@
     <script>
         let theWheel = new Winwheel({
             'responsive'      : true,
-            'outerRadius'     : 260, // Set outer radius so wheel fits inside the background.
-            'innerRadius'     : 70,         // Make wheel hollow so segments dont go all way to center.
-            'textFontSize'    : 40,         // Set default font size for the segments.
-            'textOrientation' : 'horizontal', // Make text vertial so goes down from the outside of wheel.
-            'textAlignment'   : 'outer',    // Align text to outside of wheel.
-            'numSegments'     : 12,         // Specify number of segments.
-            'segments'        :             // Define segments including colour and text.
-                [                               // font size and text colour overridden on backrupt segments.
-                    {'fillStyle' : '#B92722', 'text' : '30Coin', 'textFillStyle' : '#ffffff'},
-                    {'fillStyle' : '#ffffff', 'text' : '2 VIP', 'textFillStyle' : '#000000'},
-                    {'fillStyle' : '#B92722', 'text' : '10$ ', 'textFillStyle' : '#ffffff'},
-                    {'fillStyle' : '#ffffff', 'text' : 'Lost', 'textFillStyle' : '#000000'},
+            'outerRadius'     : 260,
+            'innerRadius'     : 70,
+            'textFontSize'    : 40,
+            'textOrientation' : 'horizontal',
+            'textAlignment'   : 'outer',
+            'numSegments'     : 12,
+            'segments'        :
+                [
                     {'fillStyle' : '#B92722', 'text' : 'Bankrupt', 'textFontSize' : 36, 'textFillStyle' : '#ffffff'},
-                    {'fillStyle' : '#ffffff', 'text' : '450', 'textFillStyle' : '#000000'},
-                    {'fillStyle' : '#B92722', 'text' : '30Coin', 'textFillStyle' : '#ffffff'},
-                    {'fillStyle' : '#ffffff', 'text' : '2 VIP', 'textFillStyle' : '#000000'},
-                    {'fillStyle' : '#B92722', 'text' : '10$ ', 'textFillStyle' : '#ffffff'},
-                    {'fillStyle' : '#ffffff', 'text' : 'Lost', 'textFillStyle' : '#000000'},
+                    {'fillStyle' : '#ffffff', 'text' : '20Coin', 'textFillStyle' : '#000000'},
+                    {'fillStyle' : '#B92722', 'text' : '40Coin ', 'textFillStyle' : '#ffffff'},
+                    {'fillStyle' : '#ffffff', 'text' : 'Bankrupt', 'textFontSize' : 36, 'textFillStyle' : '#000000'},
+                    {'fillStyle' : '#B92722', 'text' : '10Coin', 'textFillStyle' : '#ffffff'},
+                    {'fillStyle' : '#ffffff', 'text' : '60Coin', 'textFillStyle' : '#000000'},
                     {'fillStyle' : '#B92722', 'text' : 'Bankrupt', 'textFontSize' : 36, 'textFillStyle' : '#ffffff'},
-                    {'fillStyle' : '#ffffff', 'text' : '450', 'textFillStyle' : '#000000'},
+                    {'fillStyle' : '#ffffff', 'text' : '20Coin', 'textFillStyle' : '#000000'},
+                    {'fillStyle' : '#B92722', 'text' : '40Coin ', 'textFillStyle' : '#ffffff'},
+                    {'fillStyle' : '#ffffff', 'text' : 'Bankrupt', 'textFontSize' : 36, 'textFillStyle' : '#000000'},
+                    {'fillStyle' : '#B92722', 'text' : '10Coin', 'textFillStyle' : '#ffffff'},
+                    {'fillStyle' : '#ffffff', 'text' : '60Coin', 'textFillStyle' : '#000000'},
                 ],
-            'animation' :           // Specify the animation to use.
+            'animation' :
                 {
                     'type'     : 'spinToStop',
                     'duration' : 10,
                     'spins'    : 3,
-                    'callbackSound'    : playSound,   // Function to call when the tick sound is to be triggered.
-                    'callbackFinished' : alertPrize,  // Function to call whent the spinning has stopped.
-                    'soundTrigger'     : 'pin'        // Specify pins are to trigger the sound.
+                    'callbackSound'    : playSound,
+                    'callbackFinished' : alertPrize,
+                    'soundTrigger'     : 'pin'
                 },
-            'pins' :                // Turn pins on.
+            'pins' :
                 {
                     'number'     : 12,
                     'fillStyle'  : 'silver',
@@ -128,31 +134,26 @@
                 }
         });
 
-        // Loads the tick audio sound in to an audio object.
         let audio = new Audio("{{ asset('tick.mp3') }}");
 
-        // This function is called when the sound is to be played.
         function playSound()
         {
-            // Stop and rewind the sound if it already happens to be playing.
             audio.pause();
             audio.currentTime = 0;
 
-            // Play the sound.
             audio.play();
         }
 
-        // Called when the animation has finished.
         function alertPrize(indicatedSegment)
         {
-            // Display different message if win/lose/backrupt.
-            if (indicatedSegment.text == 'LOOSE TURN') {
-                alert('Sorry but you loose a turn.');
-            } else if (indicatedSegment.text == 'BANKRUPT') {
-                alert('Oh no, you have gone BANKRUPT!');
-            } else {
-                alert("You have won " + indicatedSegment.text);
-            }
+            $('#btn-wheel').remove();
+
+            $.post("{{ route('wheel.prize') }}", {
+                _token: "{{ csrf_token() }}",
+                prize: indicatedSegment.text,
+            }).done(function (response) {
+                alert(indicatedSegment.text);
+            });
         }
 
         function startWheel() {

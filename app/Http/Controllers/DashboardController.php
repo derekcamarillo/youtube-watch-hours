@@ -84,6 +84,28 @@ class DashboardController extends Controller
         return view('wheel');
     }
 
+    public function do_prize(Request $request) {
+        $prize = 0;
+        if ($request->prize == "10Coin") {
+            $prize = 10;
+        } else if ($request->prize == "20Coin") {
+            $prize = 20;
+        } else if ($request->prize == "40Coin") {
+            $prize = 40;
+        } else if ($request->prize == "60Coin") {
+            $prize = 60;
+        }
+
+        Auth::user()->coin = Auth::user()->coin + $prize - 40;
+        Auth::user()->spin_at = now();
+        Auth::user()->save();
+
+        return response()->json([
+            'status' => true,
+            'data' => "Successfully added your prize"
+        ]);
+    }
+
     public function view_lottery() {
         return view('lottery');
     }

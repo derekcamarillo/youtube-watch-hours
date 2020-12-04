@@ -38,6 +38,7 @@ Route::group([
     Route::get('withdraw', "DashboardController@view_withdraw")->name('withdraw');
     Route::post('withdraw', "DashboardController@do_withdraw")->name('withdraw');
     Route::get('wheel', "DashboardController@view_wheel")->name('wheel');
+    Route::post('wheel/prize', "DashboardController@do_prize")->name('wheel.prize');
     Route::get('lottery', "DashboardController@view_lottery")->name('lottery');
 
     Route::post('/order', "OrderController@create")->name('order.create');
