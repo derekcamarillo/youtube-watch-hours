@@ -24,8 +24,6 @@ Route::get('terms', "HomeController@view_terms")->name('terms');
 Route::get('payment/success', "OrderController@payment_success")->name('payment.success');
 Route::get('payment/cancel', "OrderController@payment_cancel")->name('payment.cancel');
 
-Route::get('referral/{ref_code}')->name('my-referral');
-
 Route::group([
     'middleware' => ['auth:sanctum', 'verified']
 ], function () {

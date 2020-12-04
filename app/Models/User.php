@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -30,7 +31,8 @@ class User extends Authenticatable
         'password',
         'gender',
         'country',
-        'subscribed'
+        'subscribed',
+        'ref_user'
     ];
 
     /**
@@ -86,5 +88,15 @@ class User extends Authenticatable
 
     public function withdrawals() {
         return $this->hasMany(Withdrawal::class);
+    }
+
+    public function getRefUserAttribute() {
+        try {
+            $refUser = User::findOrFail($this->attributes['ref_user']);
+
+            return $refUser;
+        } catch (ModelNotFoundException $e) {
+            return null;
+        }
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Actions\Fortify;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
@@ -27,6 +28,16 @@ class CreateNewUser implements CreatesNewUsers
             'country' => ['required'],
         ])->validate();
 
+        $refUser = null;
+
+        if (isset($input['ref_code'])) {
+            try {
+                $refUser = User::where('ref_code', $input['ref_code'])->firstOrFail();
+            } catch (ModelNotFoundException $e) {
+                $refUser = null;
+            }
+        }
+
         return User::create([
             'name' => $input['name'],
             'email' => $input['email'],
@@ -34,6 +45,7 @@ class CreateNewUser implements CreatesNewUsers
             'gender' => $input['gender'],
             'country' => $input['country'],
             'subscribed' => isset($input['subscribed']) ? true : false,
+            'ref_user' => isset($refUser) ? $refUser->id : null
         ]);
     }
 }

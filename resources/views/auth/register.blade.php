@@ -17,6 +17,8 @@
                     <form action="{{ route('register') }}" method="post">
                         @csrf
 
+                        <input type="hidden" name="ref_code" value="{{ request()->get('ref') }}">
+
                         <div class="row">
                             <div class="mb-4 col-sm-12">
                                 <input type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="USERNAME">
