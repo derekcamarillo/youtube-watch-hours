@@ -34,7 +34,7 @@
                                                 frameborder="0"
                                                 allowfullscreen="1"
                                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                                title="{{ $order->title }}" width="100%" height="600" src="https://www.youtube.com/embed/{{ $order->video }}?enablejsapi=1&origin=http://localhost:8000&widgetid=1"></iframe>
+                                                title="{{ $order->title }}" width="100%" height="600" src="https://www.youtube.com/embed/{{ $order->video }}?enablejsapi=1&origin={{ env('APP_URL') }}&widgetid=1"></iframe>
                                     </div>
                                 </div>
                             </div>
