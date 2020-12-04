@@ -83,4 +83,8 @@ class User extends Authenticatable
     public function watches() {
         return $this->belongsToMany(Order::class, "user_order");
     }
+
+    public function withdrawals() {
+        return $this->hasMany(Withdrawal::class);
+    }
 }

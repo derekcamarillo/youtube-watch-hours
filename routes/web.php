@@ -38,6 +38,7 @@ Route::group([
     Route::post('watch/finish/{order}', "OrderController@do_finish_watch")->name('watch.finish');
     Route::get('referral', "DashboardController@view_referral")->name('referral');
     Route::get('withdraw', "DashboardController@view_withdraw")->name('withdraw');
+    Route::post('withdraw', "DashboardController@do_withdraw")->name('withdraw');
     Route::get('wheel', "DashboardController@view_wheel")->name('wheel');
     Route::get('lottery', "DashboardController@view_lottery")->name('lottery');
 

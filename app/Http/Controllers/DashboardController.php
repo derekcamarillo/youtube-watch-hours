@@ -9,8 +9,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Withdrawal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class DashboardController extends Controller
 {
@@ -27,9 +29,9 @@ class DashboardController extends Controller
     }
 
     public function view_watch_list() {
-        $orders = Order::whereDoesntHave('users', function ($query) {
-            $query->where('user_id', Auth::id());
-        })->orderByRaw("RAND()")->limit(12)->get();
+        $orders = Order::whereDoesntHave('visitors', function ($query) {
+                $query->where('user_id', Auth::id());
+            })->orderByRaw("RAND()")->limit(12)->get();
 
         return view('watch-list', compact('orders'));
     }
@@ -41,7 +43,37 @@ class DashboardController extends Controller
     }
 
     public function view_withdraw() {
-        return view('withdraw');
+        return view('withdraw', [
+            'withdrawals' => Auth::user()->withdrawals
+        ]);
+    }
+
+    public function do_withdraw(Request $request) {
+        try {
+            $this->validate($request, [
+                'amount' => 'required|integer|max:'.Auth::user()->coin,
+                'payment' => 'required',
+                'description' => 'required'
+            ]);
+
+            $withdraw = new Withdrawal();
+            $withdraw->fill($request->all());
+            $withdraw->user()->associate(Auth::user());
+            if ($withdraw->save()) {
+                Auth::user()->coin = Auth::user()->coin - $request->amount;
+                Auth::user()->save();
+
+                return back()->with([
+                    'success' => "Withdrawal Request Received"
+                ]);
+            } else {
+                return back()->withErrors([
+                    'error' => "Something Went Wrong"
+                ]);
+            }
+        } catch (ValidationException $e) {
+            return back()->withErrors($e->errors());
+        }
     }
 
     public function view_referral() {

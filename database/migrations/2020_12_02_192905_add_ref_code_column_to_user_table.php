@@ -28,8 +28,8 @@ class AddRefCodeColumnToUserTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-            $table->dropColumn('ref_code');
             $table->dropUnique(['ref_code']);
+            $table->dropColumn('ref_code');
         });
     }
 }

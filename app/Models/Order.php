@@ -23,7 +23,7 @@ class Order extends Model
         });
     }
 
-    public function users() {
+    public function visitors() {
         return $this->belongsToMany(User::class, "user_order");
     }
 

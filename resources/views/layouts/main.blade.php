@@ -43,7 +43,7 @@
                     @endguest
 
                     @auth
-                        <li class="dark-btn"><a href="{{ route('promote-video') }}">PROMOTE YOUR VIDEO</a></li>
+                        <li class="dark-btn"><a href="{{ route('dashboard') }}">DASHBOARD</a></li>
                     @endauth
                 </ul>
             </div>

@@ -15,10 +15,10 @@ class AddColumnsToOrder extends Migration
     {
         Schema::table('orders', function (Blueprint $table) {
             //
-            $table->string('title')->after('link');
+            $table->string('title')->nullable()->after('link');
             $table->integer('daily_limit')->default(0)->after('seconds');
-            $table->string('gender')->default('all')->after('daily_limit');
-            $table->string('country')->default('all')->after('gender');
+            $table->string('gender')->nullable()->default('all')->after('daily_limit');
+            $table->string('country')->nullable()->default('all')->after('gender');
         });
     }
 
