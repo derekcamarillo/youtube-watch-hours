@@ -40,6 +40,8 @@
                                     <option disabled="disabled" selected>GENDER</option>
                                     <option value="male">MALE</option>
                                     <option value="female">FEMALE</option>
+                                    <option value="other">OTHER</option>
+                                    <option value="none">PREFER NOT TO SAY</option>
                                 </select>
                             </div>
                             <div class="mb-4 col-sm-6">
