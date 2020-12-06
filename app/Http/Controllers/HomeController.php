@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Lottery;
+use Illuminate\Validation\ValidationException;
 
 class HomeController extends Controller
 {
@@ -29,6 +31,24 @@ class HomeController extends Controller
 
     public function view_contactus() {
         return view('contactus');
+    }
+
+    public function do_contactus(Request $request) {
+        try {
+            $this->validate($request, [
+                'name' => 'required',
+                'email' => 'email|required',
+                'message' => 'required'
+            ]);
+
+            Ticket::create($request->all());
+
+            return back()->with([
+                'success' => "We received your ticket"
+            ]);
+        } catch (ValidationException $e) {
+            return back()->withErrors($e->errors());
+        }
     }
 
     public function view_terms() {

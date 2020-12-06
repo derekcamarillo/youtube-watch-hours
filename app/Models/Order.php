@@ -28,7 +28,7 @@ class Order extends Model
     }
 
     public function getRemainsAttribute() {
-        return $this->attributes['quantity'] - $this->users()->count();
+        return $this->attributes['quantity'] - $this->visitors()->count();
     }
 
     public function getVideoAttribute() {

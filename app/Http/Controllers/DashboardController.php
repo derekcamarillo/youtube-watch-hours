@@ -33,7 +33,12 @@ class DashboardController extends Controller
     public function view_watch_list() {
         $orders = Order::whereDoesntHave('visitors', function ($query) {
                 $query->where('user_id', Auth::id());
-            })->orderByRaw("RAND()")->limit(12)->get();
+            })
+            ->where(function ($query) {
+                $query->where('status', config( 'constant.status.pending'))
+                    ->orWhere('status', config('constant.status.in_progress'));
+            })
+            ->orderByRaw("RAND()")->limit(12)->get();
 
         return view('watch-list', compact('orders'));
     }

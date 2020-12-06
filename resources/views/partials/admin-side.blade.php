@@ -11,24 +11,28 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('admin.users') }}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
-                        <p>Teams</p>
+                        <p>Users</p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('admin.orders')  }}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
-                        <p>Games</p>
+                        <p>Orders</p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('admin.tickets') }}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>Tickets
-                            <!--span class="right badge badge-danger">3</span-->
+                            @if(\App\Models\Ticket::where('status', "unread")->count() > 0)
+                                <span class="right badge badge-danger">
+                                    {{ \App\Models\Ticket::where('status', "unread")->count() }}
+                                </span>
+                            @endif
                         </p>
                     </a>
                 </li>

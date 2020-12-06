@@ -65,6 +65,12 @@ class OrderController extends Controller
         $user->save();
         Auth::user()->watches()->save($order);
 
+        if ($order->remains == 0) {
+            $order->status = config('constant.status.completed');
+        }
+        $order->status = config('constant.status.in_progress');
+        $order->save();
+
         if ($request->ajax())
             return \response()->json([
                 'status' => true,

@@ -18,11 +18,16 @@ Route::get('/', "HomeController@view_home")->name('home');
 Route::get('/lottery/test', "HomeController@test_award");
 
 Route::get('/admin', "AdminController@view_dashboard")->name('admin.dashboard');
+Route::get('/admin/users', "AdminController@view_users")->name('admin.users');
+Route::get('/admin/orders', "AdminController@view_orders")->name('admin.orders');
+Route::get('/admin/tickets', "AdminController@view_tickets")->name('admin.tickets');
+Route::post('/admin/tickets', "AdminController@do_read_tickets")->name('admin.tickets.read');
 
 Route::get('how-it-works', "HomeController@view_howitworks")->name('how-it-works');
 Route::get('faq', "HomeController@view_faq")->name('faq');
 Route::get('shop', "HomeController@view_shop")->name('shop');
 Route::get('contact-us', "HomeController@view_contactus")->name('contact-us');
+Route::post('contact-us', "HomeController@do_contactus")->name('contact-us');
 Route::get('terms', "HomeController@view_terms")->name('terms');
 
 Route::get('payment/success', "OrderController@payment_success")->name('payment.success');
