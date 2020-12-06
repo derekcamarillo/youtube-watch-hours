@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Lottery;
 
 class HomeController extends Controller
 {
@@ -32,5 +33,11 @@ class HomeController extends Controller
 
     public function view_terms() {
         return view('terms');
+    }
+
+    public function test_award() {
+        $count = Lottery::count();
+        Lottery::orderByRaw("RAND()")->limit($count / 4)->update(['winner' => true]);
+        Lottery::destroy(Lottery::all()->pluck('id'));
     }
 }

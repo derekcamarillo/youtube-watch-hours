@@ -66,26 +66,7 @@
 @endsection
 
 @push('styles')
-    <style>
-        .wheel .bdr {
-            position: absolute;
-            left: 50%;
-            margin-left: -300px;
-        }
-        .wheel .ctr {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            margin-top: -162px;
-            margin-left: -70px;
-        }
-        .wheel .tcr {
-            position: absolute;
-            left: 50%;
-            margin-left: -30px;
-            margin-top: -10px;
-        }
-    </style>
+    <link href="{{ asset('css/wheel.css') }}" rel="stylesheet">
 @endpush
 
 @push('scripts')

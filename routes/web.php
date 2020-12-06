@@ -15,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', "HomeController@view_home")->name('home');
 
+Route::get('/lottery/test', "HomeController@test_award");
+
+Route::get('/admin', "AdminController@view_dashboard")->name('admin.dashboard');
+
 Route::get('how-it-works', "HomeController@view_howitworks")->name('how-it-works');
 Route::get('faq', "HomeController@view_faq")->name('faq');
 Route::get('shop', "HomeController@view_shop")->name('shop');
@@ -40,6 +44,7 @@ Route::group([
     Route::get('wheel', "DashboardController@view_wheel")->name('wheel');
     Route::post('wheel/prize', "DashboardController@do_prize")->name('wheel.prize');
     Route::get('lottery', "DashboardController@view_lottery")->name('lottery');
+    Route::post('lottery', "DashboardController@do_buy_ticket")->name('lottery');
 
     Route::post('/order', "OrderController@create")->name('order.create');
     Route::get('/order/{order}', "OrderController@show")->name('order.show');

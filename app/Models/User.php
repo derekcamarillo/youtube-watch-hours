@@ -91,6 +91,14 @@ class User extends Authenticatable
         return $this->hasMany(Withdrawal::class);
     }
 
+    public function lotteries() {
+        return $this->hasMany(Lottery::class);
+    }
+
+    public function win_lotteries() {
+        return $this->hasMany(Lottery::class)->where('winner', true)->withTrashed();
+    }
+
     public function getRefUserAttribute() {
         try {
             $refUser = User::findOrFail($this->attributes['ref_user']);

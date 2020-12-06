@@ -8,11 +8,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Lottery;
 use App\Models\Order;
 use App\Models\Withdrawal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Str;
 
 class DashboardController extends Controller
 {
@@ -107,6 +109,28 @@ class DashboardController extends Controller
     }
 
     public function view_lottery() {
-        return view('lottery');
+        $wins = Lottery::where('winner', true)->withTrashed()->get();
+        return view('lottery', compact('wins'));
+    }
+
+    public function do_buy_ticket() {
+        if (Auth::user()->coin >= 10) { // check if user has sufficient coins to buy a ticket
+            $lottery = new Lottery();
+            $lottery->ticket = Str::random('16');
+            $lottery->user()->associate(Auth::id());
+            $lottery->save();
+
+            Auth::user()->coin = Auth::user()->coin - 10;
+            Auth::user()->save();
+
+            return back()->with([
+                'success' => "Successfully Purchased",
+                'data' => $lottery->ticket
+            ]);
+        } else {
+            return back()->withErrors([
+                'error' => "Insufficient Coins"
+            ]);
+        }
     }
 }
