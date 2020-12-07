@@ -31,7 +31,6 @@
                     <ul>
                         <li><a href="{{ route('how-it-works') }}">How it Works</a></li>
                         <li><a href="{{ route('faq') }}">FAQ</a></li>
-                        <li><a href="{{ route('shop') }}">Shop</a></li>
                         <li><a href="{{ route('contact-us') }}">Contact Us</a></li>
                     </ul>
                 </nav>
