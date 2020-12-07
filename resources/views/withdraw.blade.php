@@ -50,7 +50,7 @@
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $withdrawal->amount }}</td>
-                                    <td>{{ $withdrawal->amount / 100 * 0.03 }}</td>
+                                    <td>{{ $withdrawal->amount * config('constant.price') }}</td>
                                     <td>{{ $withdrawal->payment }}</td>
                                     <td>{{ $withdrawal->description }}</td>
                                     <td>{{ \Illuminate\Support\Str::ucfirst($withdrawal->status) }}</td>
@@ -68,7 +68,7 @@
     <script>
         $('#amount').on('change', function () {
             amount = $(this).val();
-            $('#esti').text(amount / 100 * 0.03);
+            $('#esti').text(amount * {{ config('constant.price') }});
         });
     </script>
 @endpush

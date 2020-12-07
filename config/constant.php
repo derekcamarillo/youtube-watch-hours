@@ -12,5 +12,6 @@ return [
         'partial' => "partial",
         'completed' => "completed",
         'cancelled' => "cancelled",
-    ]
+    ],
+    'price' => 1 / 9999
 ];

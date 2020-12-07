@@ -30,7 +30,7 @@
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $withdrawal->user->name }}</td>
                                     <td>{{ $withdrawal->amount }}</td>
-                                    <td>{{ $withdrawal->amount / 100 * 0.03 }}</td>
+                                    <td>{{ $withdrawal->amount * config('constant.price') }}</td>
                                     <td>{{ $withdrawal->payment }}</td>
                                     <td>{{ $withdrawal->description }}</td>
                                     <td>{{ $withdrawal->status }}</td>

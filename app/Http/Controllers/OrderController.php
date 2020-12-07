@@ -61,7 +61,8 @@ class OrderController extends Controller
         $order = Order::where('uid', $order)->firstOrFail();
 
         $user = Auth::user();
-        $user->coin = $user->coin + $order->seconds;
+        $coin = $order->seconds / 30 * 9;
+        $user->coin = $user->coin + $coin;
         $user->save();
         Auth::user()->watches()->save($order);
 
@@ -125,7 +126,7 @@ class OrderController extends Controller
             $this->validate($request, [
                 'link' => 'required|url',
                 'quantity' => 'required|integer|min:1',
-                'seconds' => 'required|integer|in:30,60,90',
+                'seconds' => 'required|integer|in:30,60,120,180,210',
                 //'api-key' => 'required'
             ]);
 
@@ -140,6 +141,103 @@ class OrderController extends Controller
             $response['status'] = false;
             $response['error'] = $e->errors();
             return response()->json($response, Response::HTTP_NOT_FOUND);
+        }
+    }
+
+    public function api_status(Request $request) {
+        try {
+            $this->validate($request, [
+                'order' => 'required|integer'
+            ]);
+
+            try {
+                $order = Order::findOrFail($request->order);
+
+                return response()->json([
+                    'status' => true,
+                    'data' => [
+                        'status' => $order->status,
+                        'remains' => $order->remains,
+                        'start count' => $request->quantity
+                    ]
+                ]);
+            } catch (ModelNotFoundException $e) {
+                return response()->json([
+                    'status' => false,
+                    'data' => "Order not found"
+                ]);
+            }
+        } catch (ValidationException $e) {
+            return response()->json([
+                'status' => false,
+                'data' => "Order id not specified"
+            ]);
+        }
+    }
+
+    public function api_stop(Request $request) {
+        try {
+            $this->validate($request, [
+                'order' => 'required|integer'
+            ]);
+
+            try {
+                $order = Order::findOrFail($request->order);
+                $order->status = config('constant.status.partial');
+                $order->save();
+
+                return response()->json([
+                    'status' => true,
+                    'data' => [
+                        'status' => $order->status,
+                        'remains' => $order->remains,
+                        'start count' => $request->quantity
+                    ]
+                ]);
+            } catch (ModelNotFoundException $e) {
+                return response()->json([
+                    'status' => false,
+                    'data' => "Order not found"
+                ]);
+            }
+        } catch (ValidationException $e) {
+            return response()->json([
+                'status' => false,
+                'data' => "Order id not specified"
+            ]);
+        }
+    }
+
+    public function api_cancel(Request $request) {
+        try {
+            $this->validate($request, [
+                'order' => 'required|integer'
+            ]);
+
+            try {
+                $order = Order::findOrFail($request->order);
+                $order->status = config('constant.status.cancelled');
+                $order->save();
+
+                return response()->json([
+                    'status' => true,
+                    'data' => [
+                        'status' => $order->status,
+                        'remains' => $order->remains,
+                        'start count' => $request->quantity
+                    ]
+                ]);
+            } catch (ModelNotFoundException $e) {
+                return response()->json([
+                    'status' => false,
+                    'data' => "Order not found"
+                ]);
+            }
+        } catch (ValidationException $e) {
+            return response()->json([
+                'status' => false,
+                'data' => "Order id not specified"
+            ]);
         }
     }
 
