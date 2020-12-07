@@ -30,9 +30,12 @@ class DashboardController extends Controller
         return view('my-video');
     }
 
-    public function view_watch_list() {
+    public function view_watch_list(Request $request) {
         $orders = Order::whereDoesntHave('visitors', function ($query) {
                 $query->where('user_id', Auth::id());
+            })
+            ->whereDoesntHave('videoIps', function ($query) use($request) {
+                $query->where('ip', $request->ip());
             })
             ->where(function ($query) {
                 $query->where('status', config( 'constant.status.pending'))

@@ -20,7 +20,7 @@
                                 <div class="video-block">
                                     <div class="content">
                                         <div class="row mb-2">
-                                            <div class="col-7">Reward: {{ $order->seconds }} coins</div>
+                                            <div class="col-7">Reward: {{ $order->seconds/ 30 * 9 }} coins</div>
                                             <div class="col-5 text-right">Api Views</div>
                                         </div>
                                         <div class="text-center">

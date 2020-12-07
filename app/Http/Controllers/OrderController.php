@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\User;
+use App\Models\VideoIp;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -65,6 +66,11 @@ class OrderController extends Controller
         $user->coin = $user->coin + $coin;
         $user->save();
         Auth::user()->watches()->save($order);
+
+        $videoIp = new VideoIp();
+        $videoIp->ip = $request->ip();
+        $videoIp->order()->associate($order);
+        $videoIp->save();
 
         if ($order->remains == 0) {
             $order->status = config('constant.status.completed');

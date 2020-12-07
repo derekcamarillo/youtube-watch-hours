@@ -44,4 +44,8 @@ class Order extends Model
             return null;
         }
     }
+
+    public function videoIps() {
+        return $this->hasMany(VideoIp::class);
+    }
 }
