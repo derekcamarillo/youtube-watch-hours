@@ -22,10 +22,23 @@
                     <div class="text-center wheel">
                         <div>
                             <div class="wrap">
+                                @php
+                                    $today = \Illuminate\Support\Carbon::now();
+                                    $nextSunday = \Illuminate\Support\Carbon::today()->next('Sunday');
+                                    $totalSeconds = $nextSunday->diffInSeconds($today);
+                                    $unitDay = 60 * 60 * 24;
+                                    $unitHour = 60 * 60;
+                                    $unitMinute = 60;
+
+                                    $days = (int) ($totalSeconds / $unitDay);
+                                    $hours = (int) (($totalSeconds - $days * $unitDay) / $unitHour);
+                                    $minutes = (int) (($totalSeconds - $days * $unitDay - $hours * $unitHour) / $unitMinute);
+                                    $seconds = $totalSeconds - $days * $unitDay - $hours * $unitHour - $minutes * $unitMinute;
+                                @endphp
                                 <h1>Lottery ends at every <strong>Saturday 23:59:59</strong></h1>
 
                                 <div class="countdown">
-                                    <div class="bloc-time days" data-init-value="7">
+                                    <div class="bloc-time days" data-init-value="{{ $days }}">
                                         <span class="count-title">Days</span>
 
                                         <div class="figure days days-1">
@@ -51,33 +64,33 @@
                                         </div>
                                     </div>
 
-                                    <div class="bloc-time hours" data-init-value="24">
+                                    <div class="bloc-time hours" data-init-value="{{ $hours }}">
                                         <span class="count-title">Hours</span>
 
                                         <div class="figure hours hours-1">
-                                            <span class="top">2</span>
+                                            <span class="top">0</span>
                                             <span class="top-back">
-                                                <span>2</span>
+                                                <span>0</span>
                                             </span>
-                                            <span class="bottom">2</span>
+                                            <span class="bottom">0</span>
                                             <span class="bottom-back">
-                                                <span>2</span>
+                                                <span>0</span>
                                             </span>
                                         </div>
 
                                         <div class="figure hours hours-2">
-                                            <span class="top">4</span>
+                                            <span class="top">0</span>
                                             <span class="top-back">
-                                                <span>4</span>
+                                                <span>0</span>
                                             </span>
-                                            <span class="bottom">4</span>
+                                            <span class="bottom">0</span>
                                             <span class="bottom-back">
-                                                <span>4</span>
+                                                <span>0</span>
                                             </span>
                                         </div>
                                     </div>
 
-                                    <div class="bloc-time min" data-init-value="0">
+                                    <div class="bloc-time min" data-init-value="{{ $minutes }}">
                                         <span class="count-title">Minutes</span>
 
                                         <div class="figure min min-1">
@@ -103,7 +116,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="bloc-time sec" data-init-value="0">
+                                    <div class="bloc-time sec" data-init-value="{{ $seconds }}">
                                         <span class="count-title">Seconds</span>
 
                                         <div class="figure sec sec-1">
@@ -210,7 +223,7 @@
                 };
 
                 // Initialize total seconds
-                this.total_seconds = this.values.hours * 60 * 60 * 24 + this.values.hours * 60 * 60 + (this.values.minutes * 60) + this.values.seconds;
+                this.total_seconds = (this.values.days * 60 * 60 * 24) + this.values.hours * 60 * 60 + (this.values.minutes * 60) + this.values.seconds;
 
                 // Animate countdown to the end
                 this.count();
@@ -246,7 +259,16 @@
                             --that.values.hours;
                         }
 
+                        if(that.values.days >= 0 && that.values.hours < 0) {
+
+                            that.values.hours = 24;
+                            --that.values.days;
+                        }
+
                         // Update DOM values
+                        // Days
+                        that.checkHour(that.values.days, $day_1, $day_2);
+
                         // Hours
                         that.checkHour(that.values.hours, $hour_1, $hour_2);
 
