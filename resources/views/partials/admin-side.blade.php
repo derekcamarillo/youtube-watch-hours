@@ -36,6 +36,13 @@
                         </p>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('admin.withdrawals')  }}" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>Withdrawals</p>
+                    </a>
+                </li>
             </ul>
         </nav>
     </div>
