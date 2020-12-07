@@ -157,8 +157,7 @@ class OrderController extends Controller
                     'status' => true,
                     'data' => [
                         'status' => $order->status,
-                        'remains' => $order->remains,
-                        'start_count' => $request->quantity
+                        'remains' => $order->remains
                     ]
                 ]);
             } catch (ModelNotFoundException $e) {
@@ -190,8 +189,39 @@ class OrderController extends Controller
                     'status' => true,
                     'data' => [
                         'status' => $order->status,
-                        'remains' => $order->remains,
-                        'start_count' => $request->quantity
+                        'remains' => $order->remains
+                    ]
+                ]);
+            } catch (ModelNotFoundException $e) {
+                return response()->json([
+                    'status' => false,
+                    'data' => "Order not found"
+                ]);
+            }
+        } catch (ValidationException $e) {
+            return response()->json([
+                'status' => false,
+                'data' => "Order id not specified"
+            ]);
+        }
+    }
+
+    public function api_resume(Request $request) {
+        try {
+            $this->validate($request, [
+                'order' => 'required|integer'
+            ]);
+
+            try {
+                $order = Order::findOrFail($request->order);
+                $order->status = config('constant.status.in_progress');
+                $order->save();
+
+                return response()->json([
+                    'status' => true,
+                    'data' => [
+                        'status' => $order->status,
+                        'remains' => $order->remains
                     ]
                 ]);
             } catch (ModelNotFoundException $e) {
@@ -223,8 +253,7 @@ class OrderController extends Controller
                     'status' => true,
                     'data' => [
                         'status' => $order->status,
-                        'remains' => $order->remains,
-                        'start_count' => $request->quantity
+                        'remains' => $order->remains
                     ]
                 ]);
             } catch (ModelNotFoundException $e) {
