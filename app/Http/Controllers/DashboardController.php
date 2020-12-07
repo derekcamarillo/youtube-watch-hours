@@ -114,7 +114,7 @@ class DashboardController extends Controller
     }
 
     public function view_lottery() {
-        $wins = Lottery::where('winner', true)->withTrashed()->limit(3)->get();
+        $wins = Lottery::where('winner', true)->withTrashed()->orderBy('deleted_at', 'desc')->limit(3)->get();
         return view('lottery', compact('wins'));
     }
 

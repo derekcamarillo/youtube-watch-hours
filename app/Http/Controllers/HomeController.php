@@ -67,6 +67,6 @@ class HomeController extends Controller
         $awardedLottery->user->coin = $awardedLottery->user->coin + $awardedCoin;
         $awardedLottery->user->save();
 
-        Lottery::all()->delete();
+        Lottery::destroy(Lottery::all()->pluck('id'));
     }
 }
