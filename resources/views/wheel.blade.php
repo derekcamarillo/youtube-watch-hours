@@ -71,7 +71,7 @@
 
 @push('scripts')
     <script src='{{ asset('js/wheel/Winwheel.js') }}'></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
 
     <script>
         let theWheel = new Winwheel({

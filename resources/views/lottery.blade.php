@@ -190,7 +190,7 @@
 @endsection
 
 @push('scripts')
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
 
     <script>
         // Create Countdown
