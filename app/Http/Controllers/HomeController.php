@@ -57,7 +57,16 @@ class HomeController extends Controller
 
     public function test_award() {
         $count = Lottery::count();
-        Lottery::orderByRaw("RAND()")->limit($count / 4)->update(['winner' => true]);
-        Lottery::destroy(Lottery::all()->pluck('id'));
+        $awardedLottery = Lottery::orderByRaw("RAND()")->first();
+        $awardedLottery->winner = true;
+        $awardedCoin = (5 * $count) * 0.8;
+
+        $awardedLottery->prize = $awardedCoin;
+        $awardedLottery->save();
+
+        $awardedLottery->user->coin = $awardedLottery->user->coin + $awardedCoin;
+        $awardedLottery->user->save();
+
+        Lottery::all()->delete();
     }
 }

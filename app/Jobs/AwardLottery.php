@@ -33,10 +33,16 @@ class AwardLottery implements ShouldQueue
     {
         //
         $count = Lottery::count();
-        $lotteries = Lottery::orderByRaw("RAND()")->limit($count / 4)->get();
-        foreach ($lotteries as $lottery) {
-            $lottery->winner = true;
-        }
+        $awardedLottery = Lottery::orderByRaw("RAND()")->first();
+        $awardedLottery->winner = true;
+        $awardedCoin = (5 * $count) * 0.8;
+
+        $awardedLottery->prize = $awardedCoin;
+        $awardedLottery->save();
+
+        $awardedLottery->user->coin = $awardedLottery->user->coin + $awardedCoin;
+        $awardedLottery->user->save();
+
         Lottery::all()->delete();
     }
 }

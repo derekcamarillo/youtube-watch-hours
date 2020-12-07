@@ -114,18 +114,18 @@ class DashboardController extends Controller
     }
 
     public function view_lottery() {
-        $wins = Lottery::where('winner', true)->withTrashed()->get();
+        $wins = Lottery::where('winner', true)->withTrashed()->limit(3)->get();
         return view('lottery', compact('wins'));
     }
 
     public function do_buy_ticket() {
-        if (Auth::user()->coin >= 10) { // check if user has sufficient coins to buy a ticket
+        if (Auth::user()->coin >= 5) { // check if user has sufficient coins to buy a ticket
             $lottery = new Lottery();
             $lottery->ticket = Str::random('16');
             $lottery->user()->associate(Auth::id());
             $lottery->save();
 
-            Auth::user()->coin = Auth::user()->coin - 10;
+            Auth::user()->coin = Auth::user()->coin - 5;
             Auth::user()->save();
 
             return back()->with([

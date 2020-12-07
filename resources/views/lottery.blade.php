@@ -176,8 +176,8 @@
                 @foreach($wins as $win)
                     <div class="col-lg-4 mb-4">
                         <div class="box">
-                            <div class="media mb-4"><span class="media-body">{{ $win->user->name }}</span><a href="#" class="btn btn-primary">100 coins</a></div>
-                            <div class="text-center mt-3">{{ $win->deleted_at }}</div>
+                            <div class="media mb-4"><span class="media-body">{{ $win->user->name }}</span><a href="#" class="btn btn-primary">{{ $win->prize }} coins</a></div>
+                            <div class="text-center mt-3">{{ $win->ticket }}</div>
                         </div>
                     </div>
                 @endforeach
