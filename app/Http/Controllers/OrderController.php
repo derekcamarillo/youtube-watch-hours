@@ -158,7 +158,7 @@ class OrderController extends Controller
                     'data' => [
                         'status' => $order->status,
                         'remains' => $order->remains,
-                        'start count' => $request->quantity
+                        'start_count' => $request->quantity
                     ]
                 ]);
             } catch (ModelNotFoundException $e) {
@@ -191,7 +191,7 @@ class OrderController extends Controller
                     'data' => [
                         'status' => $order->status,
                         'remains' => $order->remains,
-                        'start count' => $request->quantity
+                        'start_count' => $request->quantity
                     ]
                 ]);
             } catch (ModelNotFoundException $e) {
@@ -224,7 +224,7 @@ class OrderController extends Controller
                     'data' => [
                         'status' => $order->status,
                         'remains' => $order->remains,
-                        'start count' => $request->quantity
+                        'start_count' => $request->quantity
                     ]
                 ]);
             } catch (ModelNotFoundException $e) {
