@@ -41,7 +41,8 @@ class DashboardController extends Controller
                 $query->where('status', config( 'constant.status.pending'))
                     ->orWhere('status', config('constant.status.in_progress'));
             })
-            ->orderByRaw("RAND()")->limit(12)->get();
+            ->orderBy('seconds', 'desc')
+            ->limit(12)->get();
 
         return view('watch-list', compact('orders'));
     }
