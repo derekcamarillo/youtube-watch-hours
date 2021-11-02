@@ -32,6 +32,7 @@
             <li><a href="{{ route('referral') }}">REFERRALS</a></li>
             <li><a href="{{ route('watch.list') }}">WATCH VIDEOS</a></li>
             <li><a href="{{ route('lottery') }}">LOTTERY</a></li>
+            <li><a href="{{ route('wheel') }}">LUCKY WHEEL</a></li>
         </ul>
     </div>
 </div>
