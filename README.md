@@ -1,5 +1,5 @@
 
-<h1><img align="left" src="http://127.0.0.1:8000/images/ytyt.svg" height="50">  Youtube Watch Hours </h1>
+<h1><img align="left" src="https://github.com/topskilldev/youtube-watch-hours/blob/master/public/images/ytyt.svg?raw=true" height="50">  Youtube Watch Hours </h1>
 
 ![](https://img.shields.io/badge/Laravel-Laravel-informational?style=flat&logo=laravel&logoColor=white&color=2bbc8a)
 ![](https://img.shields.io/badge/Youtube-Youtube-informational?style=flat&logo=youtube&logoColor=white&color=2bbc8a)
